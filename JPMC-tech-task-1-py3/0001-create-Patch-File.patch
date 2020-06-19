@@ -1,0 +1,97 @@
+From cc631d6a7d98ef205e98f90740abc6a813bb099a Mon Sep 17 00:00:00 2001
+From: Hrithik Chavva <chavvaramnath21@gmail.com>
+Date: Thu, 14 May 2020 16:45:21 +0530
+Subject: [PATCH] create Patch File
+
+---
+ __pycache__/client3.cpython-37.pyc | Bin 0 -> 1050 bytes
+ client3.py                         |  43 ++++++++++++++++-------------
+ 2 files changed, 24 insertions(+), 19 deletions(-)
+ create mode 100644 __pycache__/client3.cpython-37.pyc
+
+diff --git a/__pycache__/client3.cpython-37.pyc b/__pycache__/client3.cpython-37.pyc
+new file mode 100644
+index 0000000000000000000000000000000000000000..5766d7c6afa646d053a6642269a022683e66fbe2
+GIT binary patch
+literal 1050
+zcmYjQOK%e~5Vm){*-c+SpHxD^AR&lEX@N@>o`NC-5>){qgcVqA<4LpaW;gXZ(1!FB
+zen@)cFCf7W@s$&IPMjD!Ey63$!yb>n`NsQbdU}H3xVZ5B!(5e+pVm1Y=#z&y%O5Bt
+zku)QMI_(M1X<ztGGr^=M0_ls2WHR_dL?|mVL>)m@Mth$6c5na_FbS0*9nuZ*zAdJ}
+zA58<@of(~hV00GPh#iw-dQ3;>tQNBeYcPwE*TfuzFgK(PCg#P0SQJZeURGfq7GM#U
+zT5ORFDJA;{ZwanXKm<#$H1tkZH{T-e*Q7T23u_>o{Y!1FyY<!8tY{`#yC`*ieQkYh
+zb-xGd@Ifl?eLhNmQ$m_J-3U-JoR4vq>nH}8Z<!oXZ7pw^NPijcKk}T<{`vmEJ7NPm
+z@CN>XwHP7@`gOjg3fXG{PqK^`Ew0<Za{vjFe@wC-lw22l2Xat}#vm>eopg&d*W3i9
+zE}DBL)I~SmPNfODDs95pPs+U-H9;#Y5?u>Su-_{*C=bD!D#pg+&?<(FO=S!EN|f#V
+zpF11%hAckicvzOV8qe}FmB3%OL3NYH^Q{+;S2Q%+D;iI)++67%-flFr6mot0M)%N6
+z?SS4ukXsHUrYqfR@*{c{KStFQt~D(ZJFK?6IxZ~+*BP&WnLh>1vF5a}tT?!F!joK{
+z*xUS<J?8+|JQ1EmoEqD1V=N{y&O`|7l}%SeuXNWlHRE>TxRa!L9QUujv@A(}rR0g`
+z*N~_BmGU~rGM#o;pjGQfE)&Mpmc>j@Wm&p?LjgXRQk%-yH%zA;5Nx+Ba#K+Vyy%GF
+z<(nt3-Wj^-NceYso^&9N4NI{_CcxMoFf=xS<KKj*nM2H6bOF<~3e`!pVG0syDz3Ms
+z3N0PBFcn#0|5Vpi_bzh%A0f6OYRt;r4!*t&?l0g{c>zU4-RCo(c~LbABY&21e*#-~
+G-unxOM-U(Y
+
+literal 0
+HcmV?d00001
+
+diff --git a/client3.py b/client3.py
+index f1771c3..da89127 100644
+--- a/client3.py
++++ b/client3.py
+@@ -30,30 +30,35 @@ QUERY = "http://localhost:8080/query?id={}"
+ N = 500
+ 
+ def getDataPoint(quote):
+-	""" Produce all of the needed values to generate a datapoint """
+-	""" ------------- Update this function ------------- """
+-	stock = quote['stock']
+-	bid_price = float(quote['top_bid']['price'])
+-	ask_price = float(quote['top_ask']['price'])
+-	price = bid_price
+-	return stock, bid_price, ask_price, price
++    """ Produce all of the needed values to generate a datapoint """
++    """ ------------- Update this function ------------- """
++    stock = quote['stock']
++    bid_price = float(quote['top_bid']['price'])
++    ask_price = float(quote['top_ask']['price'])
++    price = (bid_price+ask_price)//2
++    return stock, bid_price, ask_price, price
++""" Get ratio of price_a and price_b """
++""" ------------- Update this function ------------- """
++""" Also create some unit tests for this function in client_test.py """
+ 
+ def getRatio(price_a, price_b):
+-	""" Get ratio of price_a and price_b """
+-	""" ------------- Update this function ------------- """
+-	""" Also create some unit tests for this function in client_test.py """
+-	return 1
++    if(price_b==0):
++                return 
++        
++    return price_a/price_b
+ 
+ # Main
+ if __name__ == "__main__":
+ 
+-	# Query the price once every N seconds.
+-	for _ in iter(range(N)):
+-		quotes = json.loads(urllib.request.urlopen(QUERY.format(random.random())).read())
++    # Query the price once every N seconds.
++    for _ in range(N):
++        quotes = json.loads(urllib.request.urlopen(QUERY.format(random.random())).read())
+ 
+-		""" ----------- Update to get the ratio --------------- """
+-		for quote in quotes:
+-			stock, bid_price, ask_price, price = getDataPoint(quote)
+-			print ("Quoted %s at (bid:%s, ask:%s, price:%s)" % (stock, bid_price, ask_price, price))
++        """ ----------- Update to get the ratio --------------- """
++        prices={}
++        for quote in quotes:
++            stock, bid_price, ask_price, price = getDataPoint(quote)
++            prices[stock]= price
++            print ("Quoted %s at (bid:%s, ask:%s, price:%s)" % (stock, bid_price, ask_price, price))
+ 
+-		print ("Ratio %s" % getRatio(price, price))
++        print ("Ratio %s" % (getRatio(prices['ABC'], prices['DEF'])))
+-- 
+2.26.0.windows.1
+
